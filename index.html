@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="pt-br" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fórum Renaissance — Beyoncé Act I, II & III</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@300;400;600&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            body: ['Cormorant Garamond', 'serif'],
+            mono: ['DM Mono', 'monospace'],
+          },
+          colors: {
+            gold: {
+              100: '#f9f3e3',
+              300: '#e8c97a',
+              400: '#d4a843',
+              500: '#b8892e',
+              600: '#9a6f1f',
+            },
+            cream: '#faf7f0',
+            onyx: '#0a0a0a',
+          },
+          animation: {
+            'shimmer': 'shimmer 3s ease-in-out infinite',
+            'fade-up': 'fadeUp 0.8s ease forwards',
+            'float': 'float 6s ease-in-out infinite',
+          },
+          keyframes: {
+            shimmer: {
+              '0%, 100%': { opacity: '0.7' },
+              '50%': { opacity: '1' },
+            },
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-8px)' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0a0a0a; }
+
+    .gold-text {
+      background: linear-gradient(135deg, #c9a227, #e8c97a, #b8892e, #f0d68a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-bg {
+      background: radial-gradient(ellipse at 50% 0%, #1a1208 0%, #0a0a0a 70%);
+    }
+
+    .act-card {
+      background: linear-gradient(135deg, #111108 0%, #0d0d0a 100%);
+      border: 1px solid #2a2516;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .act-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #d4a843, transparent);
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    .nav-link {
+      position: relative;
+      letter-spacing: 0.15em;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 1px;
+      background: #d4a843;
+      transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    .quote-mark {
+      font-family: 'Playfair Display', serif;
+      font-size: 6rem;
+      line-height: 0;
+      color: #d4a843;
+      opacity: 0.3;
+    }
+
+    .table-row:hover td { background: rgba(212, 168, 67, 0.05); }
+
+    .img-frame {
+      position: relative;
+      display: inline-block;
+    }
+    .img-frame::before {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border: 1px solid rgba(212, 168, 67, 0.3);
+      z-index: 0;
+    }
+    .img-frame::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border: 1px solid rgba(212, 168, 67, 0.15);
+      z-index: 0;
+    }
+    .img-frame img { position: relative; z-index: 1; }
+
+    .section-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      color: #d4a843;
+      opacity: 0.6;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #2a2516 30%, #d4a84340 50%, #2a2516 70%, transparent);
+    }
+
+    input[type="text"], input[type="email"] {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid #2a2516;
+      color: #e8c97a;
+      transition: border-color 0.3s;
+    }
+    input[type="text"]:focus, input[type="email"]:focus {
+      outline: none;
+      border-color: #d4a843;
+      background: rgba(212, 168, 67, 0.04);
+    }
+    input::placeholder { color: rgba(232, 201, 122, 0.3); }
+
+    .tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: #d4a843;
+      background: rgba(212, 168, 67, 0.08);
+      border: 1px solid rgba(212, 168, 67, 0.2);
+      padding: 3px 10px;
+      display: inline-block;
+    }
+
+    @media (max-width: 640px) {
+      .quote-mark { font-size: 4rem; }
+    }
+  </style>
+</head>
+<body class="font-body text-stone-300 min-h-screen">
+
+  <div class="noise-overlay"></div>
+
+  <!-- ── HEADER ── -->
+  <header class="header-bg relative text-center pt-24 pb-20 px-6 overflow-hidden">
+    <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+      <div class="w-[600px] h-[600px] rounded-full opacity-5" style="background: radial-gradient(circle, #d4a843, transparent 70%);"></div>
+    </div>
+
+    <p class="section-number mb-6 tracking-[0.4em]">FÓRUM RENAISSANCE</p>
+
+    <h1 class="font-display text-5xl sm:text-7xl md:text-8xl lg:text-9xl gold-text leading-none mb-6 animate-shimmer">
+      BEYONCÉ
+    </h1>
+
+    <div class="divider max-w-xs mx-auto my-6"></div>
+
+    <p class="font-body text-lg sm:text-2xl text-stone-400 tracking-widest uppercase font-light">
+      Act I &nbsp;·&nbsp; Act II &nbsp;·&nbsp; Act III
+    </p>
+
+    <p class="mt-6 text-stone-500 text-base sm:text-lg max-w-xl mx-auto font-light leading-relaxed">
+      Um espaço dedicado ao grande projeto musical em três atos — uma obra que redefine os limites da música popular.
+    </p>
+
+    <!-- Stats -->
+    <div class="mt-12 grid grid-cols-3 max-w-lg mx-auto gap-px border border-stone-800">
+      <div class="bg-stone-950 py-5 px-4">
+        <p class="font-mono text-2xl sm:text-3xl gold-text">32+</p>
+        <p class="text-stone-500 text-xs sm:text-sm tracking-wider mt-1">Grammy Awards</p>
+      </div>
+      <div class="bg-stone-950 py-5 px-4 border-x border-stone-800">
+        <p class="font-mono text-2xl sm:text-3xl gold-text">3</p>
+        <p class="text-stone-500 text-xs sm:text-sm tracking-wider mt-1">Atos Musicais</p>
+      </div>
+      <div class="bg-stone-950 py-5 px-4">
+        <p class="font-mono text-2xl sm:text-3xl gold-text">30+</p>
+        <p class="text-stone-500 text-xs sm:text-sm tracking-wider mt-1">Anos de Carreira</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── NAV ── -->
+  <nav class="sticky top-0 z-50 bg-onyx/90 backdrop-blur-md border-b border-stone-900">
+    <div class="max-w-5xl mx-auto px-4 py-4 overflow-x-auto">
+      <ul class="flex items-center justify-center gap-6 sm:gap-10 min-w-max mx-auto">
+        <li><a href="#act1" class="nav-link text-stone-400 hover:text-gold-300 text-xs sm:text-sm tracking-[0.2em] uppercase font-mono transition-colors">Act I</a></li>
+        <li class="text-stone-700 font-thin">|</li>
+        <li><a href="#act2" class="nav-link text-stone-400 hover:text-gold-300 text-xs sm:text-sm tracking-[0.2em] uppercase font-mono transition-colors">Act II</a></li>
+        <li class="text-stone-700 font-thin">|</li>
+        <li><a href="#act3" class="nav-link text-stone-400 hover:text-gold-300 text-xs sm:text-sm tracking-[0.2em] uppercase font-mono transition-colors">Act III</a></li>
+        <li class="text-stone-700 font-thin">|</li>
+        <li><a href="#tabela" class="nav-link text-stone-400 hover:text-gold-300 text-xs sm:text-sm tracking-[0.2em] uppercase font-mono transition-colors">Tabela</a></li>
+        <li class="text-stone-700 font-thin">|</li>
+        <li><a href="#contato" class="nav-link text-stone-400 hover:text-gold-300 text-xs sm:text-sm tracking-[0.2em] uppercase font-mono transition-colors">Contato</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="relative z-10 max-w-5xl mx-auto px-4 sm:px-8">
+
+    <!-- ── ACT I ── -->
+    <section id="act1" class="py-20 sm:py-28">
+      <div class="act-card rounded-none p-8 sm:p-14">
+        <p class="section-number mb-4">01 / 03</p>
+        <div class="flex flex-col lg:flex-row gap-12 items-start">
+
+          <div class="lg:w-2/3">
+            <span class="tag mb-5">2022 · House / Dance</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-stone-100 leading-tight mb-2">Act I</h2>
+            <h3 class="font-display text-3xl sm:text-4xl italic gold-text mb-8">Renaissance</h3>
+
+            <p class="text-stone-400 text-lg sm:text-xl leading-relaxed mb-8 font-light">
+              <strong class="text-stone-200 font-normal">Renaissance</strong> marcou o início do projeto em três atos, celebrando a cultura
+              <em>house</em>, <em>disco</em> e a comunidade LGBTQIA+. Um álbum que resgatou sonoridades marginalizadas
+              e as elevou ao mainstream global.
+            </p>
+
+            <!-- Quote -->
+            <div class="relative my-10 pl-8 border-l border-gold-400/40">
+              <span class="quote-mark absolute -top-4 -left-3">"</span>
+              <p class="font-display text-xl sm:text-2xl italic text-stone-300 leading-relaxed">
+                This is a celebration of a renaissance, a rebirth.
+              </p>
+              <cite class="block mt-3 text-gold-400 font-mono text-xs tracking-widest not-italic">— BEYONCÉ</cite>
+            </div>
+
+            <h4 class="font-mono text-xs tracking-[0.25em] text-gold-400 uppercase mb-4">Impactos Culturais</h4>
+            <ul class="space-y-4">
+              <li class="flex gap-4">
+                <span class="text-gold-400 mt-1 shrink-0">◆</span>
+                <p class="text-stone-400 leading-relaxed">Resgate da música dance dos anos 80 e 90, evidenciando que a house music e outros estilos foram criados por artistas negros e latinos que ficavam à margem da indústria.</p>
+              </li>
+              <li class="flex gap-4">
+                <span class="text-gold-400 mt-1 shrink-0">◆</span>
+                <p class="text-stone-400 leading-relaxed">Valorização da cultura ballroom e conscientização sobre seu papel histórico na proteção da comunidade LGBT nas décadas de 80 e 90.</p>
+              </li>
+              <li class="flex gap-4">
+                <span class="text-gold-400 mt-1 shrink-0">◆</span>
+                <p class="text-stone-400 leading-relaxed">Empoderamento, liberdade corporal e celebração irrestrita da identidade — uma mensagem de que existir é resistir.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="lg:w-1/3 flex flex-col items-center gap-6">
+            <div class="img-frame animate-float">
+              <img src="fotos/BeyRensissancecapa.jpg"
+                   alt="Capa do álbum Renaissance de Beyoncé"
+                   class="w-52 sm:w-64 object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                   onerror="this.src='https://placehold.co/260x260/111108/d4a843?text=RENAISSANCE'">
+            </div>
+            <div class="text-center">
+              <p class="font-mono text-xs text-stone-600 tracking-widest">ÁLBUM</p>
+              <p class="gold-text font-display text-lg italic">Renaissance</p>
+              <p class="font-mono text-xs text-stone-600 mt-1">28 · JUL · 2022</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── ACT II ── -->
+    <section id="act2" class="py-20 sm:py-28">
+      <div class="act-card rounded-none p-8 sm:p-14">
+        <p class="section-number mb-4">02 / 03</p>
+        <div class="flex flex-col lg:flex-row-reverse gap-12 items-start">
+
+          <div class="lg:w-2/3">
+            <span class="tag mb-5">2024 · Country / Americana</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-stone-100 leading-tight mb-2">Act II</h2>
+            <h3 class="font-display text-3xl sm:text-4xl italic gold-text mb-8">Cowboy Carter</h3>
+
+            <p class="text-stone-400 text-lg sm:text-xl leading-relaxed mb-8 font-light">
+              O segundo ato explora o gênero country, ressignificando o espaço da cultura negra dentro da música americana tradicional. Um álbum político, corajoso e historicamente necessário.
+            </p>
+
+            <h4 class="font-mono text-xs tracking-[0.25em] text-gold-400 uppercase mb-4">Marcos do Álbum</h4>
+            <ol class="space-y-5">
+              <li class="flex gap-5 items-start">
+                <span class="font-mono text-gold-400/60 text-sm shrink-0 mt-1">01.</span>
+                <p class="text-stone-400 leading-relaxed">Primeiro AOTY (Álbum do Ano) da artista em premiações de renome, quebrando barreiras que o Grammy sempre ergueu contra artistas negras.</p>
+              </li>
+              <li class="flex gap-5 items-start">
+                <span class="font-mono text-gold-400/60 text-sm shrink-0 mt-1">02.</span>
+                <p class="text-stone-400 leading-relaxed">Revisita e reivindica as raízes negras do country, reafirmando que o gênero foi moldado por pessoas negras apagadas pela indústria.</p>
+              </li>
+              <li class="flex gap-5 items-start">
+                <span class="font-mono text-gold-400/60 text-sm shrink-0 mt-1">03.</span>
+                <p class="text-stone-400 leading-relaxed">Escancara o racismo estrutural da indústria musical country com as tentativas de boicote — que só ampliaram o alcance e a mensagem do álbum.</p>
+              </li>
+            </ol>
+
+            <div class="mt-8 p-5 border border-stone-800 bg-stone-950/50">
+              <p class="font-mono text-xs text-gold-400/60 tracking-widest uppercase mb-2">Impacto Cultural</p>
+              <p class="text-stone-300 leading-relaxed italic font-display text-lg">
+                "Beyoncé desafia padrões históricos da indústria musical e amplia o debate sobre representatividade — não como exceção, mas como regra."
+              </p>
+            </div>
+          </div>
+
+          <div class="lg:w-1/3 flex flex-col items-center gap-6">
+            <div class="img-frame animate-float" style="animation-delay: 1s;">
+              <img src="fotos/beyonceCapaCC.avif"
+                   alt="Capa do álbum Cowboy Carter de Beyoncé"
+                   class="w-52 sm:w-64 object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                   onerror="this.src='https://placehold.co/260x260/111108/d4a843?text=COWBOY+CARTER'">
+            </div>
+            <div class="text-center">
+              <p class="font-mono text-xs text-stone-600 tracking-widest">ÁLBUM</p>
+              <p class="gold-text font-display text-lg italic">Cowboy Carter</p>
+              <p class="font-mono text-xs text-stone-600 mt-1">29 · MAR · 2024</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── ACT III ── -->
+    <section id="act3" class="py-20 sm:py-28">
+      <div class="act-card rounded-none p-8 sm:p-14">
+        <p class="section-number mb-4">03 / 03</p>
+        <div class="flex flex-col lg:flex-row gap-12 items-start">
+
+          <div class="lg:w-2/3">
+            <span class="tag mb-5">Em breve · Rock / Afrofuturismo</span>
+            <h2 class="font-display text-4xl sm:text-5xl text-stone-100 leading-tight mb-2">Act III</h2>
+            <h3 class="font-display text-3xl sm:text-4xl italic gold-text mb-8">O Próximo Capítulo</h3>
+
+            <p class="text-stone-400 text-lg sm:text-xl leading-relaxed mb-8 font-light">
+              Embora ainda não oficialmente lançado, o terceiro ato é esperado como a conclusão épica do projeto Renaissance — possivelmente o álbum mais ambicioso de sua carreira.
+            </p>
+
+            <h4 class="font-mono text-xs tracking-[0.25em] text-gold-400 uppercase mb-4">Possíveis Direções</h4>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
+              <div class="border border-stone-800 p-5 bg-stone-950/40 hover:border-gold-600/40 transition-colors">
+                <p class="font-mono text-xs text-gold-400/60 tracking-widest mb-2">GÊNERO</p>
+                <p class="text-stone-200 font-display text-lg">Rock</p>
+              </div>
+              <div class="border border-stone-800 p-5 bg-stone-950/40 hover:border-gold-600/40 transition-colors">
+                <p class="font-mono text-xs text-gold-400/60 tracking-widest mb-2">ESTÉTICA</p>
+                <p class="text-stone-200 font-display text-lg">Afrofuturismo</p>
+              </div>
+              <div class="border border-stone-800 p-5 bg-stone-950/40 hover:border-gold-600/40 transition-colors">
+                <p class="font-mono text-xs text-gold-400/60 tracking-widest mb-2">FORMATO</p>
+                <p class="text-stone-200 font-display text-lg">Audiovisual</p>
+              </div>
+            </div>
+
+            <p class="text-stone-500 leading-relaxed">
+              A Beyoncé já demonstrou seu potencial com faixas de rock em outros projetos. A expectativa é que o Act III consolide a trilogia como a obra mais ambiciosa da história da música pop contemporânea.
+            </p>
+          </div>
+
+          <div class="lg:w-1/3 flex flex-col items-center gap-6">
+            <div class="img-frame animate-float" style="animation-delay: 2s;">
+              <img src="fotos/rockyoce.jpg"
+                   alt="Imagem representando o Act III"
+                   class="w-52 sm:w-64 object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                   onerror="this.src='https://placehold.co/260x260/111108/d4a843?text=ACT+III'">
+            </div>
+            <div class="text-center">
+              <p class="font-mono text-xs text-stone-600 tracking-widest">EM BREVE</p>
+              <p class="gold-text font-display text-lg italic">Act III</p>
+              <p class="font-mono text-xs text-stone-600 mt-1">??? · ??? · 202?</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Aside: About Beyoncé -->
+        <div class="mt-12 border-l-2 border-gold-400/30 pl-8 py-4">
+          <p class="font-mono text-xs text-gold-400/60 tracking-widest uppercase mb-3">Sobre Beyoncé</p>
+          <p class="text-stone-400 leading-relaxed mb-3">
+            Beyoncé Giselle Knowles-Carter é uma cantora, compositora, produtora e empresária americana de Houston, Texas. Com mais de 30 anos de carreira, é reconhecida como uma das artistas mais influentes da história da música — detentora do recorde de Grammys de qualquer artista, com mais de 32 prêmios.
+          </p>
+          <p class="text-stone-400 leading-relaxed mb-4">
+            Além de sua discografia, Beyoncé dirige a Parkwood Entertainment, sua própria produtora, e é reconhecida como um ícone de empoderamento negro e feminista.
+          </p>
+          <a href="https://beyonce.com/" target="_blank"
+             class="inline-flex items-center gap-2 font-mono text-xs text-gold-400 hover:text-gold-300 tracking-widest uppercase transition-colors border-b border-gold-400/30 hover:border-gold-400 pb-px">
+            Site Oficial da Beyoncé →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── TABELA ── -->
+    <section id="tabela" class="py-20 sm:py-28">
+      <div class="text-center mb-12">
+        <p class="section-number mb-3">COMPARATIVO</p>
+        <h2 class="font-display text-3xl sm:text-4xl text-stone-100">Um Pouco Sobre os Atos</h2>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse text-sm sm:text-base">
+          <thead>
+            <tr class="border-b border-gold-400/20">
+              <th class="font-mono text-xs tracking-widest text-gold-400/70 uppercase text-left py-4 px-5">Ato</th>
+              <th class="font-mono text-xs tracking-widest text-gold-400/70 uppercase text-left py-4 px-5">Ano</th>
+              <th class="font-mono text-xs tracking-widest text-gold-400/70 uppercase text-left py-4 px-5">Estilo</th>
+              <th class="font-mono text-xs tracking-widest text-gold-400/70 uppercase text-left py-4 px-5">Mensagem</th>
+              <th class="font-mono text-xs tracking-widest text-gold-400/70 uppercase text-left py-4 px-5 hidden sm:table-cell">Prêmio Destaque</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-row border-b border-stone-900 transition-colors">
+              <td class="py-5 px-5 font-display text-gold-300 text-lg">Act I</td>
+              <td class="py-5 px-5 font-mono text-stone-400 text-sm">2022</td>
+              <td class="py-5 px-5 text-stone-300">House / Dance</td>
+              <td class="py-5 px-5 text-stone-400">Liberdade e celebração</td>
+              <td class="py-5 px-5 text-stone-500 hidden sm:table-cell text-sm">4 Grammys 2023</td>
+            </tr>
+            <tr class="table-row border-b border-stone-900 transition-colors">
+              <td class="py-5 px-5 font-display text-gold-300 text-lg">Act II</td>
+              <td class="py-5 px-5 font-mono text-stone-400 text-sm">2024</td>
+              <td class="py-5 px-5 text-stone-300">Country / Americana</td>
+              <td class="py-5 px-5 text-stone-400">Representatividade histórica</td>
+              <td class="py-5 px-5 text-stone-500 hidden sm:table-cell text-sm">Primeiro AOTY</td>
+            </tr>
+            <tr class="table-row transition-colors">
+              <td class="py-5 px-5 font-display text-gold-300 text-lg">Act III</td>
+              <td class="py-5 px-5 font-mono text-stone-400 text-sm">Em breve</td>
+              <td class="py-5 px-5 text-stone-300">Rock / Afrofuturismo</td>
+              <td class="py-5 px-5 text-stone-400">A Definir</td>
+              <td class="py-5 px-5 text-stone-600 hidden sm:table-cell text-sm">—</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── VÍDEO ── -->
+    <section class="py-20 sm:py-28">
+      <div class="text-center mb-10">
+        <p class="section-number mb-3">AO VIVO</p>
+        <h2 class="font-display text-3xl sm:text-4xl text-stone-100">Renaissance World Tour</h2>
+        <p class="text-stone-500 mt-3 font-light">Uma experiência audiovisual sem precedentes</p>
+      </div>
+      <div class="relative border border-stone-800">
+        <div class="absolute inset-0 border border-gold-400/10 m-2 pointer-events-none z-10"></div>
+        <div class="aspect-video">
+          <iframe
+            class="w-full h-full"
+            src="https://www.youtube.com/embed/pAzyYLsndCg"
+            title="Beyoncé - Renaissance Tour"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── CONTATO ── -->
+    <section id="contato" class="py-20 sm:py-28">
+      <div class="max-w-lg mx-auto">
+        <div class="text-center mb-10">
+          <p class="section-number mb-3">INTERAÇÃO</p>
+          <h2 class="font-display text-3xl sm:text-4xl text-stone-100">Formulário de Contato</h2>
+          <p class="text-stone-500 mt-3 font-light">Deixe sua mensagem, sugestão ou teoria sobre o Act III</p>
+        </div>
+
+        <form class="space-y-5">
+          <div>
+            <label for="nome" class="block font-mono text-xs text-stone-500 tracking-widest uppercase mb-2">Nome</label>
+            <input type="text" id="nome" placeholder="Seu nome"
+              class="w-full px-5 py-4 font-body text-base focus:outline-none">
+          </div>
+          <div>
+            <label for="email" class="block font-mono text-xs text-stone-500 tracking-widest uppercase mb-2">Email</label>
+            <input type="email" id="email" placeholder="seu@email.com"
+              class="w-full px-5 py-4 font-body text-base focus:outline-none">
+          </div>
+          <div>
+            <label for="mensagem" class="block font-mono text-xs text-stone-500 tracking-widest uppercase mb-2">Mensagem</label>
+            <input type="text" id="mensagem" placeholder="Sua mensagem sobre a trilogia..."
+              class="w-full px-5 py-4 font-body text-base focus:outline-none">
+          </div>
+          <button type="submit"
+            class="w-full py-4 font-mono text-xs tracking-[0.3em] uppercase text-onyx bg-gold-400 hover:bg-gold-300 active:bg-gold-500 transition-colors duration-200 font-medium mt-2">
+            Enviar Mensagem
+          </button>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="border-t border-stone-900 text-center py-10 mt-10">
+    <p class="font-mono text-xs text-stone-600 tracking-widest uppercase">Projeto Acadêmico</p>
+    <p class="font-mono text-xs text-stone-700 tracking-widest mt-1 uppercase">Programação Web · UNIFSA</p>
+    <div class="divider max-w-xs mx-auto mt-6"></div>
+    <p class="font-display italic text-stone-600 mt-6 text-sm">
+      "She is the moment."
+    </p>
+  </footer>
+
+</body>
+</html>
